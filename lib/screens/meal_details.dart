@@ -29,14 +29,26 @@ class MealDetailsScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: Icon(isFavorite ? Icons.star : Icons.star_border),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: Icon(isFavorite ? Icons.star : Icons.star_border,
+                  key: ValueKey(isFavorite)),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                    turns: Tween(begin: 0.91, end: 1.0).animate(animation),
+                    child: child);
+              },
+            ),
           )
         ],
       ),
       body: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Image.network(meal.imageUrl,
-              width: double.infinity, height: 300, fit: BoxFit.cover),
+          Hero(
+            tag: meal.id,
+            child: Image.network(meal.imageUrl,
+                width: double.infinity, height: 300, fit: BoxFit.cover),
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
